@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BioPower | Chat Access</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    form, #chatbot {
+      max-width: 500px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, button, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+    }
+    #chatbot {
+      display: none;
+      margin-top: 30px;
+    }
+    .machine-options {
+      display: flex;
+      gap: 15px;
+      margin-top: 8px;
+    }
+    .machine-options label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Enter Your Details</h2>
+<form id="userForm">
+  <label for="name">Name</label>
+  <input type="text" id="name" required>
+
+  <label for="contact">Contact Number</label>
+  <input type="text" id="contact" required>
+
+  <label for="email">Email</label>
+  <input type="email" id="email">
+
+  <label for="source_of_waste">Source of waste</label>
+  <input type="text" id="source_of_waste" required>
+
+  <label for="amount">Amount of Waste (in kg)</label>
+  <input type="number" id="amount" min="0" required>
+
+  <label for="machine_type">Machine Type (Optional):</label>
+<select id="machine_type" name="machine_type">
+  <option value="">-- None Selected --</option>
+  <option value="Biogas">Biogas</option>
+  <option value="Organic Converter">Organic Converter</option>
+  <option value="Both">Both</option>
+</select>
+
+  <label for="company">Company Name (optional)</label>
+  <input type="text" id="company">
+
+  <button type="submit">Submit</button>
+</form>
+
+<!-- Chatbot Section -->
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCMiBhlujuxgkr6M_YCKPJbfyx9Gt6sq5Q",
+    authDomain: "biopower-a5e93.firebaseapp.com",
+    databaseURL: "https://biopower-a5e93-default-rtdb.firebaseio.com",
+    projectId: "biopower-a5e93",
+    storageBucket: "biopower-a5e93.appspot.com",
+    messagingSenderId: "348458096344",
+    appId: "1:348458096344:web:b7f03f398fba76c3f8a78f"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  document.getElementById('userForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const contact = document.getElementById('contact').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const sourceOfWaste = document.getElementById('source_of_waste').value.trim();
+    const amount = document.getElementById('amount').value.trim();
+    const machineType = document.getElementById('machine_type').value.trim(); 
+    const company = document.getElementById('company').value.trim();
+
+
+    const data = {
+    name,
+    contact,
+    email: email || "N/A",
+    source_of_waste: sourceOfWaste,
+    amount_of_waste: amount,
+    machine_type: machineType,   
+    company: company || "N/A",
+    timestamp: new Date().toISOString()
+};
+
+    
+
+     try {
+      await db.ref('chat_users').push(data);
+      sessionStorage.setItem("chatAccessGranted", "true");
+      window.location.href = "chat_box.html";
+    } catch (err) {
+      console.error("❌ Error saving user details:", err);
+      alert("Error submitting details. Please try again.");
+    }
+  });
+</script>
+
+</body>
+</html>

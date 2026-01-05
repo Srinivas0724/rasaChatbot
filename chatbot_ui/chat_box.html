@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bio Power Chat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #chat-container {
+      width: 100%;
+      max-width: 500px;
+      height: 90vh;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      max-width: 80%;
+      font-size: 15px;
+      word-wrap: break-word;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: #dcf8c6;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background: #f1f0f0;
+    }
+
+    .bot a {
+      color: #007bff;
+      text-decoration: underline;
+    }
+
+    #user-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+      padding: 10px;
+      background: #fafafa;
+    }
+
+    #text-input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+    }
+
+    #send-button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-left: 8px;
+    }
+
+    #send-button:hover {
+      background: #45a049;
+    }
+
+    .bot button {
+      margin-top: 6px;
+      margin-right: 6px;
+      padding: 6px 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .bot button:hover {
+      background-color: #0056b3;
+    }
+
+    h2 {
+      margin: 16px 0 0 0;
+      font-size: 1.5em;
+      color: #333;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-container">
+    <h2>Bio Power Chatbot</h2>
+    <div id="chat-box"></div>
+    <div id="user-input">
+      <input type="text" id="text-input" placeholder="Type your message..." autocomplete="off" />
+      <button id="send-button">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Only allow access if user came from user_details.html
+    if (sessionStorage.getItem("chatAccessGranted") !== "true") {
+      alert("Please fill out your details first.");
+      window.location.href = "user_details.html";
+    }
+
+    const rasaUrl = "http://localhost:5005/webhooks/rest/webhook";
+    const chatBox = document.getElementById("chat-box");
+    const inputField = document.getElementById("text-input");
+    const sendButton = document.getElementById("send-button");
+
+    function appendMessage(sender, text) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `message ${sender}`;
+      msgDiv.innerHTML = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function appendButtons(buttons) {
+      const container = document.createElement("div");
+      container.className = "message bot";
+      buttons.forEach(button => {
+        const btn = document.createElement("button");
+        btn.textContent = button.title;
+        btn.onclick = () => {
+          sendMessage(button.payload, false);
+        };
+        container.appendChild(btn);
+      });
+      chatBox.appendChild(container);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage(message = null, showUser = true) {
+      message = message || inputField.value.trim();
+      if (!message) return;
+
+      if (showUser) appendMessage("user", message);
+      inputField.value = "";
+
+      try {
+        const res = await fetch(rasaUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sender: "user", message })
+        });
+
+        const data = await res.json();
+        data.forEach(response => {
+          if (response.text) appendMessage("bot", response.text);
+          if (response.buttons) appendButtons(response.buttons);
+          if (response.custom && response.custom.url) {
+            appendMessage("bot", `🔗 <a href="${response.custom.url}" target="_blank">${response.custom.url}</a>`);
+          }
+        });
+
+      } catch (err) {
+        console.error("Error:", err);
+        appendMessage("bot", "❌ Unable to connect to Rasa server.");
+      }
+    }
+
+    sendButton.addEventListener("click", () => sendMessage());
+    inputField.addEventListener("keydown", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    window.onload = () => {
+      sendMessage("/greet", false);
+      inputField.focus();
+    };
+  </script>
+</body>
+</html>

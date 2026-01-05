@@ -1,0 +1,197 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - ask_biopower
+  - option_1
+  - option_2
+  - bio_gas_plant_info
+  - organic_converter_overview
+  - ask_waste_type
+  - dry_waste
+  - wet_waste
+  - provide_waste_amount
+  - installation_support
+  - inform_dry
+  - inform_wet
+  - choose_composter
+  - existing_plant_options
+  - gas_gererate
+  - gas_generate_yes
+  - gas_generate_no
+  - low_flame_yes
+  - low_flame_no
+  - moisture_yes
+  - moisture_no
+  - gas_emitted_yes
+  - gas_emitted_no
+  - ask_contact
+
+  
+
+entities:
+  - waste_type
+  - waste_amount
+
+slots:
+  waste_amount:
+    type: float
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: waste_amount
+        intent: provide_waste_amount
+
+  waste_type:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: waste_type
+
+  
+actions:
+  - action_save_unhandled_message
+  - action_save_user_message
+  - action_handle_waste_amount
+  - action_handle_wet_waste_info
+  - action_check_composter_availability
+  - action_store_user_info
+
+responses:
+
+  utter_thank_you:
+    - text: "Thank you for sharing your details! Someone from Bio Power will contact you shortly."
+
+  utter_greet:
+    - text: |
+        Hey! Welcome to Bio Power.
+        Our mission is to build Organic Energy Worldwide 🌍.
+        How can I assist you today?
+      buttons:
+        - title: "1. New to Bio Power"
+          payload: "/ask_waste_type"
+        - title: "2. Queries regarding an existing Bio Power plant"
+          payload: "/existing_plant_options"
+
+  utter_goodbye:
+    - text: "Bye! Stay green 🌱"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Bio Power."
+
+  utter_deny_followup:
+    - text: "No worries. I'm here if you need anything else 💬"
+
+  utter_bio_power:
+    - text: |
+        Bio Power is a company that focuses on building organic energy solutions worldwide.
+        We aim to create sustainable energy sources that are environmentally friendly and accessible to all.
+
+
+  utter_option_1:
+    - text: "👉 Enter the amount of waste in Kg:"
+
+
+  utter_ask_waste_amount:
+    - text: "👉 Please enter the amount of waste in kilograms (kg):"
+
+
+  utter_existing_plant_options:
+    - text: "Please choose your query type:"
+      buttons:
+        - title: "1. Regarding Gas Generation"
+          payload: /gas_gererate
+
+
+  utter_ask_contact:
+    - text: |
+        📩 Contact us:
+        - Email: info@biopower.co.in
+        - Phone: +91 7338129464 / +91 9686623587
+        - Website: https://biopower.co.in/
+
+  utter_ask_waste_type:
+    - text: |
+        ♻️ <b>Please choose the type of waste system based on your usage:</b><br><br>
+        🔹 <b>Composter</b><br>• Best used for apartments<br>• Efficiently processes waste using dry leaves<br><br>
+        🔹 <b>Bio Gas</b><br>• Ideal for homes and small communities<br>• Converts kitchen and wet waste into clean energy<br>• Widely used in industries that rely on gas for their operations
+      buttons:
+        - title: "Composter"
+          payload: "/choose_composter"
+        - title: "Bio Gas"
+          payload: "/wet_waste"
+
+  utter_dry_waste_info:
+    - text: |
+        ♻️ Please enter the amount of dry waste (in KG).
+
+  utter_null_fallback:
+    - text: "❓ Sorry, I didn't understand that. Can you try rephrasing?"
+
+  utter_bio_gas_plant_info:
+    - text: |
+        Our Bio Gas Plant solutions are available in Commercial, Industrial, and Domestic models.
+
+  utter_organic_converter_overview:
+    - text: |
+        The Organic Converter efficiently transforms organic waste into compost or energy.
+
+
+  utter_gas_generation_info:
+    - text: "<b>Yes</b><br>Gas is Generated<br><br><b>No</b><br>Gas is not Generated<br><br>"
+      buttons:
+        - title: "Yes"
+          payload: /gas_generate_yes
+        - title: "No"
+          payload: /gas_generate_no
+
+
+  utter_gas_generation_yes_info:
+    - text: "<b>Yes</b><br>Low flame is generated<br><br> <b>No</b><br>No flame is generated<br><br>"
+      buttons:
+        - title: "Yes"
+          payload: /low_flame_yes
+        - title: "No"
+          payload: /low_flame_no
+
+  utter_low_flame_yes:
+    - text: |
+        ✅ Feed proper waste according to the plant's capacity. <br>
+        ❌ Don’t overfeed the system. <br> 
+        ⚖️ Keep weight on the gas holder for proper gas pressure. <br>
+        🔄 Ensure regular maintenance for optimal performance. <br>
+
+  utter_low_flame_no_info:
+    - text: "<b>Yes</b><br>There is moisture visible inside the pipeline<br><br><b>No</b>There is no moisture visible inside the pipeline<br>"
+      buttons:
+        - title: "Yes"
+          payload: /moisture_yes
+        - title: "No"
+          payload: /moisture_no
+
+  utter_moisture_yes:
+    - text: " Remove any one end point of pipeline from biogas holder/gas stove end and remove the water from the pipeline"
+
+  utter_moisture_no_info:
+    - text: "<b>Yes</b><br>Gas is emitted out<br><br><b>No</b><br>Gas is not emitted out<br>"
+      buttons:
+        - title: "Yes"
+          payload: /gas_emitted_yes
+        - title: "No"
+          payload: /gas_emitted_no
+
+  utter_gas_emitted_yes:
+    - text: "✅According to your details, there is below 50% of methane. 
+        To generate methane, please add cow dung to your plant.
+        For example, if your plant is 1 cubic meter, use 20kg of cow dung with an equal amount of water (1:1 ratio)."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

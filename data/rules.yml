@@ -1,0 +1,150 @@
+version: "3.1"
+
+rules:
+
+  - rule: Greet the user
+    steps:
+      - intent: greet
+      - action: utter_greet
+    
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - rule: Say 'I am a bot' anytime the user challenges
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot
+
+  - rule: Respond when user says no after cheer up
+    steps:
+      - intent: deny
+      - action: utter_deny_followup
+
+  - rule: Respond to ask_biopower
+    steps:
+      - intent: ask_biopower
+      - action: utter_bio_power
+
+
+  - rule: Respond to option_1
+    steps:
+      - intent: ask_waste_type
+      - action: utter_ask_waste_type
+
+  - rule: Respond to option_2
+    steps:
+      - intent: existing_plant_options
+      - action: utter_existing_plant_options
+
+  - rule: Provide contact details on request
+    steps:
+      - intent: ask_contact
+      - action: utter_ask_contact
+
+      
+  - rule: Save message rule
+    steps:
+      - intent: ask_bio
+      - action: action_save_user_message
+
+
+  - rule: Handle fallback and save message
+    steps:
+      - intent: nlu_fallback
+      - action: action_save_unhandled_message
+
+  
+  - rule: Respond to bio gas plant info
+    steps:
+      - intent: bio_gas_plant_info
+      - action: utter_bio_gas_plant_info
+
+  - rule: Respond to organic converter overview
+    steps:
+      - intent: organic_converter_overview
+      - action: utter_organic_converter_overview
+
+  - rule: Show installation support
+    steps:
+      - intent: installation_support
+      - action: utter_ask_contact
+
+
+
+  - rule: Handle dry waste input
+    steps:
+      - intent: provide_dry_waste_amount
+      - action: action_handle_waste_amount
+
+  - rule: Ask for wet waste amount
+    steps:
+      - intent: wet_waste
+      - action: utter_option_1
+
+  - rule: Handle wet waste flow
+    steps:
+      - intent: provide_waste_amount
+      - slot_was_set:
+          - waste_amount: truep-
+      - action: action_handle_wet_waste_info
+
+  - rule: Handle waste amount
+    steps:
+      - intent: inform
+      - action: action_handle_wet_waste_info
+
+
+
+  - rule: Check composter availability
+    steps:
+      - intent: choose_composter
+      - action: action_check_composter_availability
+
+
+  - rule: Show gas generation info
+    steps:
+      - intent: gas_gererate
+      - action: utter_gas_generation_info
+
+  - rule: User confirms gas is generated
+    steps:
+      - intent: gas_generate_yes
+      - action: utter_gas_generation_yes_info
+
+  - rule: User says gas is not generated
+    steps:
+      - intent: gas_generate_no
+      - action: utter_ask_contact
+
+  - rule: User confirms low flame
+    steps:  
+      - intent: low_flame_yes
+      - action: utter_low_flame_yes
+
+  - rule: User denies low flame
+    steps:  
+      - intent: low_flame_no
+      - action: utter_low_flame_no_info
+
+  - rule: User confirms moisture
+    steps:    
+      - intent: moisture_yes
+      - action: utter_moisture_yes
+
+  - rule: User denies moisture
+    steps:
+      - intent: moisture_no
+      - action: utter_moisture_no_info
+
+  - rule: User says gas is emitted
+    steps:
+      - intent: gas_emitted_yes
+      - action: utter_gas_emitted_yes
+
+  - rule: User says gas is not emitted
+    steps:
+      - intent: gas_emitted_no
+      - action: utter_ask_contact
+

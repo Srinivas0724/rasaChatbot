@@ -1,0 +1,31 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Rasa
+.rasa/
+
+# VS Code
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Gradle (if any)
+.gradle/
+
+# Credentials
+firebase-adminsdk.json
+biopower-key.json
+
+# Data and results (optional, if you don’t want to track Excel files)
+*.xlsx
+
+.venv/
+__pycache__/
+models/
+*.db
+*.log

@@ -1,0 +1,91 @@
+version: "3.1"
+
+stories:
+
+- story: greet user
+  steps:
+    - intent: greet
+    - action: utter_greet
+- story: goodbye
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye
+
+- story: bot challenge
+  steps:
+    - intent: bot_challenge
+    - action: utter_iamabot
+
+- story: deny flow
+  steps:
+    - intent: deny
+    - action: utter_deny_followup
+
+- story: ask about bio power
+  steps:
+    - intent: ask_biopower
+    - action: utter_bio_power
+
+
+- story: option 1 selected
+  steps:
+    - intent: ask_waste_type
+    - action: utter_ask_waste_type
+
+- story: option 2 selected
+  steps:
+    - intent: existing_plant_options
+    - action: utter_existing_plant_options
+
+- story: ask for contact
+  steps:
+    - intent: ask_contact
+    - action: utter_ask_contact
+
+- story: save message
+  steps:
+  - intent: ask_bio
+  - action: action_save_user_message
+
+- story: fallback message handling
+  steps:
+    - intent: nlu_fallback
+    - action: action_save_unhandled_message
+
+- story: bio gas plant information
+  steps:
+    - intent: bio_gas_plant_info
+    - action: utter_bio_gas_plant_info
+
+- story: organic converter info
+  steps:
+    - intent: organic_converter_overview
+    - action: utter_organic_converter_overview
+
+- story: installation support inquiry
+  steps:
+    - intent: installation_support
+    - action: utter_ask_contact
+
+
+
+
+- story: user selects dry waste
+  steps:
+    - intent: dry_waste
+    - action: utter_dry_waste_info
+
+
+
+
+
+- story: Composter selection
+  steps:
+    - intent: choose_composter
+    - action: action_check_composter_availability
+
+- story: Handle existing plant query
+  steps:
+    - intent: ask_existing_plant_queries
+    - action: utter_existing_plant_options
+

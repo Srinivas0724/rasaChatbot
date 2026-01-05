@@ -1,0 +1,204 @@
+version: "3.1"
+
+nlu:
+
+- regex: waste_amount
+  examples: |
+    - \d+(\.\d+)?
+
+    
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - correct
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - I am feeling great
+    - I am good
+    - I feel awesome
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I feel down
+    - I am not happy
+    - I am not feeling well
+    - I am not good
+    - I am not feeling great
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - am I talking to a machine?
+    - are you a robot?
+    - are you a chatbot?
+    - are you a real person?
+    - are you a human?
+
+- intent: ask_biopower
+  examples: |
+    - What is Bio Power?
+    - Tell me about Bio Power
+    - What is your mission?
+    - What do you do?   
+    - What is your goal?
+    - What is your purpose?
+    - What is Bio Power all about?
+
+- intent: ask_services
+  examples: |
+    - What are your work?
+    - What do you do?
+    - What services do you offer?
+    - Tell me about your services
+    - What kind of work do you do?
+    - What are your main services?
+
+- intent: option_1
+  examples: |
+    - I am new to Bio Power
+    - New user
+    - I want to know more about Bio Power
+    - I am interested in Bio Power
+    - I want to learn about Bio Power
+
+- intent: option_2
+  examples: |
+    - I have an existing plant
+    - I have a query about my plant
+    - I want to know about my plant
+    - I have a question about my plant
+    - I need help with my plant
+
+- intent: existing_plant_options
+  examples: |
+    - How can I contact you?
+    - Phone number or email?
+    - Contact details
+    - How to reach you?
+    - How can I get in touch?
+    - Contact information
+    - Contact info
+
+
+- intent: bio_gas_plant_info
+  examples: |
+    - Tell me more about the plant models
+
+- intent: organic_converter_overview
+  examples: |
+    - What is an organic converter?
+
+- intent: ask_waste_type
+  examples: |
+    - Show me dry or wet waste options
+
+- intent: dry_waste
+  examples: |
+    - Dry waste
+    - Show dry waste info
+
+- intent: wet_waste
+  examples: |
+    - Wet waste
+    - Show wet waste info
+    - I want to use bio gas
+    - bio gas
+    - I have wet waste
+    - I want to dispose kitchen waste
+
+- intent: provide_waste_amount
+  examples: |
+    - [5](waste_amount) kg
+    - I have [10](waste_amount) kilograms
+    - [3.5](waste_amount) kg
+    - [50](waste_amount)
+    - [7](waste_amount) kg
+    - I have [2.5](waste_amount)
+    - [15](waste_amount)
+
+- intent: inform_dry
+  examples: |
+    - It's dry
+    - dry waste
+    - dry
+
+- intent: inform_wet
+  examples: |
+    - It's wet
+    - wet waste
+    - wet
+
+- intent: check_composter
+  examples: |
+    - I have 60kg of waste
+    - Can I get a composter for 40 kg?
+    - 100kg waste for compost
+    - We have 30 kg waste
+  
+- intent: inform
+  examples: |
+    - skip
+    - no email
+    - not applicable
+    - not now
+
+- intent: provide_dry_waste_amount
+  examples: |
+    - I have 5 kg dry waste
+    - 10kg dry waste
+    - 20kg paper and dry leaves
+
+- intent: provide_waste_amount
+  examples: |
+    - I have 30 kg wet waste
+    - 100kg kitchen waste
+    - 2kg of leftover food
+    - I have 25 kg of wet waste
+    - 30 kilograms
+    - It's 15 kg
+    - 200 kg
